@@ -1,14 +1,16 @@
+using EstacionamentoSenac.API.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 string connectionString = "Server=(localdb)\\mssqllocaldb;Database=EstacionamentoSenacDB;Trusted_Connection=True;";
 
-builder.Services.AddContext<AppContext>(Opt => Opt.UseSqlServer(connectionString));
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(connectionString));
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
-
 
 if (app.Environment.IsDevelopment())
 {
