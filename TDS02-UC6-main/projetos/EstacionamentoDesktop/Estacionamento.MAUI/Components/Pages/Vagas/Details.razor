@@ -4,20 +4,29 @@
 
 <h3>Detalhes da Vaga</h3>
 
-@if (true)
+@if (vaga == null)
 {
     <p><em>Carregando...</em></p>
 }
 else
 {
-    <p><strong>ID:</strong> Id</p>
-    <p><strong>Localização:</strong> Localizacao</p>
-    <p><strong>Tipo:</strong> TipoVaga</p>
+    <p><strong>ID:</strong> @vaga.Id </p>
+    <p><strong>Localização:</strong> @vaga.Localizacao</p>
+    <p><strong>Tipo:</strong> @vaga.TipoVaga</p>
 
-    <a href="#" class="btn btn-primary">Editar</a>
-    <a href="#" class="btn btn-secondary">Voltar</a>
+    <a href="/vagas/edit/@vaga.Id" class="btn btn-primary">Editar</a>
+    <a href="/vagas" class="btn btn-secondary">Voltar</a>
 }
 
 @code {
-    
+    [Parameter]
+    public int Id { get; set; }
+
+    Vaga? vaga;
+
+    protected override async Task OnInitializedAsync()
+    {
+        vaga = await Http.GetFromJsonAsync<Vaga>($"api/Vagas/{Id}");
+    }
 }
+

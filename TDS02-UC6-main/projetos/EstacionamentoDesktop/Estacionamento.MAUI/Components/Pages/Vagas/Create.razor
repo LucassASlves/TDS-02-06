@@ -6,6 +6,21 @@
 <h3>Criar Vaga</h3>
 
 
+<form @onsubmit="CreateVaga">
+    <label>Localização</label>
+    <input id="localizacao" @bind="vaga.Localizacao" class="form-control" />
+
+    <label>Tipo</label>
+    <input id="tipoVaga" @bind="vaga.TipoVaga" class="form-control" />
+
+    <input type="submit" value="Salvar" class="btn btn-primary" />
+</form>
+
 @code {
-    
+    Vaga vaga = new();
+
+    private async Task CreateVaga()
+    {
+        await Http.PostAsJsonAsync("api/vagas", vaga);
+    }
 }

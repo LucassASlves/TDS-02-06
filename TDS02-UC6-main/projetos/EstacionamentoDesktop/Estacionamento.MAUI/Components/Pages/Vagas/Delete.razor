@@ -5,18 +5,38 @@
 
 <h3>Excluir Vaga</h3>
 
-@if (false)
+@if (vaga == null)
 {
     <p><em>Carregando...</em></p>
 }
 else
 {
-    <p>Você tem certeza que deseja excluir a vaga <strong>Localizacao</strong>?</p>
-    
-    <button  class="btn btn-danger">Sim, Excluir</button>
-    <a href="/vagas" class="btn btn-secondary">Não, Cancelar</a>
+    <p>Você tem certeza que deseja excluir a vaga <strong>@vaga.Localizacao</strong>?</p>
+
+    <form @onsubmit="DeleteVaga">
+        <button type="submit" class="btn btn-danger">Sim, Excluir</button>
+        <a href="/vagas" class="btn btn-secondary">Não, Cancelar</a>
+    </form>
 }
 
 @code {
-    
+    [Parameter]
+    public int Id { get; set; }
+
+    Vaga? vaga;
+
+    protected override async Task OnInitializedAsync()
+    {
+        vaga = await Http.GetFromJsonAsync<Vaga>($"api/Vagas/{Id}");
+    }
+
+    private async Task DeleteVaga()
+    {
+        if (vaga != null)
+        {
+            await Http.DeleteAsync($"api/Vagas/{Id}");
+        }
+
+        Navigation.NavigateTo("/vagas");
+    }
 }
